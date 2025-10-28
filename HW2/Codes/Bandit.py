@@ -11,17 +11,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 from scipy.stats import ttest_ind
-
-
 import os
 
-# Get the folder where Bandit.py is located
-CODES_DIR = os.path.dirname(__file__)
 
-# Go **one level up** → this is HW2/
+CODES_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.abspath(os.path.join(CODES_DIR, ".."))
 
-# Now create Report/ and Images/ under HW2/
 REPORT_DIR = os.path.join(BASE_DIR, "Report")
 IMAGES_DIR = os.path.join(BASE_DIR, "Images")
 
@@ -45,7 +40,7 @@ def log_trial_progress(trial, N, chosen_index, bandit, rewards):
 def _sanitize_filename(name: str) -> str:
     import re
     name = str(name)
-    name = re.sub(r'[\\/:*?"<>|]+', '', name)  # strip illegal path chars
+    name = re.sub(r'[\\/:*?"<>|]+', '', name) 
     name = name.replace(' ', '_')
     return name
 
@@ -59,25 +54,22 @@ def save_report_data(algorithm, chosen_bandit, reward, bandits):
         exp_path = os.path.join(REPORT_DIR, f"{algo_safe}_Result_Experiment.csv")
         final_path = os.path.join(REPORT_DIR, f"{algo_safe}_Result_Final.csv")
 
-        # Ensure JSON/CSV-friendly 1D lists
         chosen_bandit_list = np.asarray(chosen_bandit).tolist()
         reward_list = np.asarray(reward).tolist()
 
-        # Per-trial results
         data_df = pd.DataFrame({
             'Bandit': chosen_bandit_list,
             'Reward': reward_list,
-            'Algorithm': algo_safe
-        })
+            'Algorithm': algo_safe})
+        
         data_df.to_csv(exp_path, index=False)
         logger.info(f"[{algo_safe}] Wrote per-trial CSV to: {exp_path}")
 
-        # Final snapshot of per-arm estimates (use indices, not object repr)
         data_df1 = pd.DataFrame({
             'Bandit': list(range(len(bandits))),
             'Reward': [float(b.p_estimate) for b in bandits],
-            'Algorithm': algo_safe
-        })
+            'Algorithm': algo_safe})
+        
         data_df1.to_csv(final_path, index=False)
         logger.info(f"[{algo_safe}] Wrote final snapshot CSV to: {final_path}")
 
