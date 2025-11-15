@@ -268,9 +268,12 @@ tab_gender        <- aggregate(CLV ~ gender,             data = telco, FUN = mea
 tab_cust_internet
 tab_gender
 ```
+CLV is fairly similar in absolute size across service categories, but there are 
+systematic differences: higher-tier plans and no-internet segments tend to have 
+slightly higher CLV, while Basic + Internet customers have noticeably lower CLV 
+and higher churn.
 
-the CLV is very similar across service categories — the differences are quite small, 
-meaning service type alone does not strongly determine lifetime value. And as for gender,
+And as for gender,
 it does not meaningfully affect customer value either (no discrimination :D)
 
 ```{r}
@@ -600,8 +603,9 @@ The final model identified age, marital status, years at current address, voice
 subscription, internet subscription, and customer category as statistically 
 significant predictors (p-value being less than 0.05) of time-to-churn. 
 Interpreting coefficients via time ratios (exp(beta)), subscriptions to voice and 
-internet services increase expected lifetime (time ratios > 1), indicating 
-slower churn hazard and higher retention stability. 
+internet services are associated with shorter expected lifetimes 
+(time ratios < 1), indicating faster churn hazard and lower retention 
+stability than for otherwise similar customers without these services.
 Basic service customers exhibit lower time ratios, implying faster churn, while 
 higher-end users like Plus, E-service, and Total customers have longer survival 
 times. The positive association between address duration and retention suggests 
@@ -625,11 +629,11 @@ intervention intensity, while targeting only at-risk subscribers reduces the
 required annual retention budget to approximately 29,565 AMD at a 15% incentive 
 level.
 
-To conclude, the most valuable customers are therefore the high-tier subscribers,
-especially those with both voice and internet services, as they exhibit higher 
-CLV, lower churn risk, and more stable engagement.
-Most effective retention focus is:
-Basic service customers with high churn risk, especially those not enrolled in 
-bundled offerings.
+To conclude, the most valuable customers are the high-tier subscribers, 
+especially E-service and Plus customers without internet, who exhibit the 
+highest CLV and the lowest churn risk. The most effective retention focus is on 
+Basic service customers with high churn risk, particularly those with internet 
+(and possibly voice) services, who combine relatively low CLV with very high 
+12-month churn probabilities.
 
 P.S. I apologise for the long report. 
